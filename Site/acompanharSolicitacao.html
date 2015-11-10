@@ -1,0 +1,75 @@
+﻿<html>
+<head>
+	<meta charset="utf-8" />
+	<title>SADis - Acompanhar Solicitação</title>
+	<script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
+	<link rel="stylesheet" href="css/960_24_col.css" type='text/css'/> <!-- Grid 960 -->
+	<link rel="stylesheet" href="css/jquery.dataTables.css" type='text/css'/> <!-- Grid 960 -->
+	<link rel="stylesheet" href="css/style.css" type='text/css' /> 
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'><!-- GoogleFonts -->
+</head>
+
+<body>
+	<div class="background">
+		<div class="container_24">
+			<div class="grid_4 suffix_13">
+				<div class="logo">
+					<a href="index.html"><img src="logo_SADis_menor.png"></a>
+				</div>
+			</div>
+
+			<div class="grid_24">
+				<div class="background_transparente">    
+					<div class="id_aba_ativa">
+						<font color="DC792F" size="3px"style="font-weight:bold;">Acompanhar Solicitação</font>
+					</div>
+
+					<div class="clearfix"></div> 
+					<div class="background_conteudo">
+						<form onsubmit="return validar(this);" method="GET" action="javascript:checarSolicitacao()">
+
+							<h2>Código da Solicitação: </h2><input type="text" name="CodSolic" id="codSolic" />
+							
+							<br />		
+							<br />		
+							<br />		
+							
+							<button type="submit" class="but but-rc but-shadow but-primary"  onClick="">Enviar</button>
+
+						</form>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+		</div>  
+	</div>           
+</body>
+
+
+</html>
+
+
+<script type="text/javascript">
+	function validar(formulario) {
+		if (formulario.CodSolic.value.length == 0 )   {
+			alert("Por favor preencher os campos.");
+			return false;
+		}
+		
+		return true;
+	}
+	
+	function checarSolicitacao(){
+	  // Get data based on code
+  	$.getJSON("checarSolicitacao.php", {CodSolic: $("#codSolic").val()}, 
+  	  // When done getting data, redirect to verSolicitacao.php
+  	  function(data){
+        var url = 'verSolicitacao.php';
+        var form = $('<form action="' + url + '" method="post">' +
+          '<input type="text" name="jsonData" value="' + JSON.stringify(data).replace(/"/g, "'") + '"></input></form>');
+        $('body').append(form);
+        form.submit();
+  	  }
+  	);
+	}
+</script>
